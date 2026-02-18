@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pica y Fija PRO</title>
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Segoe UI', sans-serif;
+}
+
+body{
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+  overflow:hidden;
+  color:white;
+}
+
+/* Fondo con números */
+.background-numbers{
+  position:absolute;
+  inset:0;
+  z-index:0;
+  overflow:hidden;
+}
+
+.background-numbers span{
+  position:absolute;
+  font-size:120px;
+  color:rgba(255,255,255,0.05);
+  font-weight:bold;
+  user-select:none;
+}
+
+/* Card principal */
+.card{
+  position:relative;
+  z-index:1;
+  width:95%;
+  max-width:420px;
+  padding:30px;
+  border-radius:20px;
+  backdrop-filter:blur(20px);
+  background:rgba(255,255,255,0.08);
+  box-shadow:0 20px 40px rgba(0,0,0,0.4);
+}
+
+/* Título */
+.titulo{
+  text-align:center;
+  font-size:28px;
+  font-weight:bold;
+  margin-bottom:10px;
+}
+
+.subtitulo{
+  text-align:center;
+  opacity:0.7;
+  margin-bottom:20px;
+}
+
+/* Tu número */
+.numero-box{
+  text-align:center;
+  margin-bottom:25px;
+}
+
+.numero-display{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:10px;
+  font-size:22px;
+  letter-spacing:6px;
+  background:rgba(0,0,0,0.3);
+  padding:10px 15px;
+  border-radius:12px;
+}
+
+.ojo{
+  cursor:pointer;
+  color:#bbb;
+  font-size:20px;
+  transition:0.3s;
+}
+
+.ojo:hover{
+  color:white;
+}
+
+/* Intentos */
+input{
+  width:100%;
+  padding:12px;
+  border:none;
+  border-radius:10px;
+  font-size:16px;
+  text-align:center;
+  margin-bottom:15px;
+}
+
+/* Botones */
+.btn{
+  width:100%;
+  padding:12px;
+  border:none;
+  border-radius:12px;
+  font-size:16px;
+  cursor:pointer;
+  margin-bottom:10px;
+  transition:0.2s;
+}
+
+.btn-intentar{
+  background:linear-gradient(90deg,#2193b0,#6dd5ed);
+  color:white;
+}
+
+.btn-cambiar{
+  background:linear-gradient(90deg,#8e2de2,#4a00e0);
+  color:white;
+}
+
+.btn-finalizar{
+  background:#1a1a1a;
+  color:white;
+  margin-top:15px;
+}
+
+.btn:hover{
+  transform:scale(1.03);
+}
+
+/* Historial */
+.historial{
+  margin-top:20px;
+  font-size:14px;
+  opacity:0.9;
+}
+
+.historial div{
+  padding:6px 0;
+  border-bottom:1px solid rgba(255,255,255,0.1);
+}
+
+/* Responsive */
+@media(max-width:480px){
+  .card{
+    padding:20px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="background-numbers" id="bg"></div>
+
+<div class="card">
+
+  <div class="titulo">Pantalla 1</div>
+  <div class="subtitulo">Intentos: 7</div>
+
+  <div class="numero-box">
+    <div style="margin-bottom:5px; opacity:0.7;">Tu número</div>
+    <div class="numero-display">
+      <span id="numero">••••</span>
+      <span class="ojo" onclick="toggleNumero()">👁️</span>
+    </div>
+  </div>
+
+  <input type="text" placeholder="Ingresa número">
+
+  <button class="btn btn-intentar">Intentar</button>
+  <button class="btn btn-cambiar">Ir a Pantalla 2</button>
+
+  <div class="historial">
+    <div>5728 → 2 Fijas - 1 Pica</div>
+    <div>3614 → 3 Fijas - 2 Picas</div>
+    <div>8465 → 1 Fija - 4 Picas</div>
+  </div>
+
+  <button class="btn btn-finalizar">Finalizar Juego</button>
+
+</div>
+
+<script>
+let visible=false;
+
+function toggleNumero(){
+  visible=!visible;
+  document.getElementById("numero").textContent=
+    visible?"1234":"••••";
+}
+
+/* Generar números decorativos */
+function crearFondo(){
+  const bg=document.getElementById("bg");
+  for(let i=0;i<20;i++){
+    let span=document.createElement("span");
+    span.innerText=Math.floor(Math.random()*10);
+    span.style.top=Math.random()*100+"%";
+    span.style.left=Math.random()*100+"%";
+    span.style.fontSize=(Math.random()*100+60)+"px";
+    bg.appendChild(span);
+  }
+}
+crearFondo();
+</script>
+
+</body>
+</html>
