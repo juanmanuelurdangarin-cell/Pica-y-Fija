@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pica y Fija</title>
+<title>Pica y Fija PRO</title>
 
 <style>
 *{
@@ -19,91 +19,32 @@ body{
   justify-content:center;
   align-items:center;
   background:linear-gradient(135deg,#ff9a9e,#fad0c4,#fad0c4);
-  overflow:hidden;
-}
-
-/* Fondo números */
-.bg{
-  position:absolute;
-  inset:0;
-  z-index:0;
-  overflow:hidden;
-}
-
-.bg span{
-  position:absolute;
-  font-size:120px;
-  color:rgba(255,255,255,0.2);
-  font-weight:bold;
-  user-select:none;
-}
-
-/* Card */
-.card{
-  position:relative;
-  z-index:1;
-  width:95%;
-  max-width:420px;
-  padding:25px;
-  border-radius:20px;
-  background:rgba(255,255,255,0.6);
-  backdrop-filter:blur(15px);
-  box-shadow:0 20px 40px rgba(0,0,0,0.2);
-  text-align:center;
-}
-
-/* Pantallas */
-.pantalla{ display:none; }
-.activa{ display:block; }
-
-/* Títulos */
-.titulo{
-  font-size:26px;
-  font-weight:bold;
-  margin-bottom:10px;
   color:#333;
 }
 
-.sub{
-  margin-bottom:20px;
-  color:#555;
+.card{
+  width:95%;
+  max-width:420px;
+  padding:30px;
+  border-radius:20px;
+  backdrop-filter:blur(15px);
+  background:rgba(255,255,255,0.6);
+  box-shadow:0 15px 35px rgba(0,0,0,0.2);
 }
 
-/* Número secreto */
-.numero-box{
-  margin-bottom:20px;
-}
-
-.numero-display{
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  gap:10px;
-  background:white;
-  padding:10px;
-  border-radius:12px;
-  font-size:20px;
-  letter-spacing:6px;
-}
-
-.ojo{
-  cursor:pointer;
-  color:gray;
-}
-
-/* Inputs */
-input{
-  width:100%;
-  padding:12px;
-  border-radius:10px;
-  border:none;
-  font-size:16px;
+h1{
   text-align:center;
-  margin-bottom:12px;
+  margin-bottom:15px;
 }
 
-/* Botones */
-.btn{
+.sub{
+  text-align:center;
+  margin-bottom:20px;
+  font-size:14px;
+  opacity:0.7;
+}
+
+button{
   width:100%;
   padding:12px;
   border:none;
@@ -114,205 +55,211 @@ input{
   transition:0.2s;
 }
 
+button:hover{
+  transform:scale(1.03);
+}
+
 .btn-primary{
-  background:#ff6f61;
+  background:linear-gradient(90deg,#36d1dc,#5b86e5);
   color:white;
 }
 
 .btn-secondary{
-  background:#6a11cb;
+  background:linear-gradient(90deg,#ff758c,#ff7eb3);
   color:white;
 }
 
-.btn-finalizar{
-  background:#333;
+.btn-danger{
+  background:#ff4b5c;
   color:white;
   margin-top:15px;
 }
 
-.btn:hover{
-  transform:scale(1.05);
+input, select{
+  width:100%;
+  padding:10px;
+  border-radius:10px;
+  border:1px solid #ccc;
+  margin-bottom:10px;
+  text-align:center;
+  font-size:16px;
 }
 
-/* Historial */
 .historial{
   margin-top:15px;
-  text-align:left;
   font-size:14px;
 }
 
-/* Modal */
-.modal{
+.historial div{
+  padding:6px;
+  background:rgba(255,255,255,0.7);
+  border-radius:8px;
+  margin-bottom:5px;
+}
+
+.hidden{
   display:none;
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,0.6);
-  justify-content:center;
-  align-items:center;
 }
 
-.modal-content{
-  background:white;
-  padding:20px;
-  border-radius:12px;
+.numero-display{
   text-align:center;
+  font-size:22px;
+  letter-spacing:6px;
+  margin-bottom:10px;
 }
 
-.modal-content button{
-  margin:5px;
+.ojo{
+  cursor:pointer;
 }
 </style>
 </head>
 
 <body>
 
-<div class="bg" id="bg"></div>
-
 <div class="card">
 
   <!-- MENU -->
-  <div id="menu" class="pantalla activa">
-    <div class="titulo">🎯 Pica y Fija</div>
-    <div class="sub">Elegí tu número secreto</div>
-
-    <input type="text" id="numeroInput" maxlength="4" inputmode="numeric">
-    <button class="btn btn-primary" onclick="iniciarJuego()">Comenzar</button>
+  <div id="menu">
+    <h1>Pica y Fija</h1>
+    <div class="sub">Juego 2 jugadores</div>
+    <button class="btn-primary" onclick="iniciarJuego()">Iniciar Juego</button>
   </div>
 
-  <!-- TU TURNO -->
-  <div id="pantalla1" class="pantalla">
+  <!-- PANTALLA TU TURNO -->
+  <div id="turno" class="hidden">
 
-    <div class="titulo">Tu turno</div>
+    <h1>Tu turno</h1>
 
-    <div class="numero-box">
-      <div style="font-size:14px;">Tu número</div>
-      <div class="numero-display">
-        <span id="numeroTexto">••••</span>
-        <span class="ojo" onclick="toggleNumero()">👁️</span>
-      </div>
+    <div class="numero-display">
+      Número secreto: 
+      <span id="numeroSecreto">••••</span>
+      <span class="ojo" onclick="toggleNumero()">👁️</span>
     </div>
 
-    <input type="text" id="intento1" maxlength="4" inputmode="numeric">
-    <button class="btn btn-primary" onclick="guardarIntento(1)">Intentar</button>
-    <button class="btn btn-secondary" onclick="cambiarPantalla(2)">Ir al turno rival</button>
+    <div class="sub">Intento</div>
+    <input 
+      type="number" 
+      id="intento" 
+      maxlength="4"
+      placeholder="Ingresa 4 cifras"
+      oninput="limitarInput(this)"
+    >
 
-    <div class="historial" id="historial1"></div>
+    <div class="sub">Resultado que te dice tu rival</div>
+
+    <select id="fijas">
+      <option value="0">0 Fijas</option>
+      <option value="1">1 Fija</option>
+      <option value="2">2 Fijas</option>
+      <option value="3">3 Fijas</option>
+      <option value="4">4 Fijas</option>
+    </select>
+
+    <select id="picas">
+      <option value="0">0 Picas</option>
+      <option value="1">1 Pica</option>
+      <option value="2">2 Picas</option>
+      <option value="3">3 Picas</option>
+      <option value="4">4 Picas</option>
+    </select>
+
+    <button class="btn-primary" onclick="guardarIntento()">Guardar Intento</button>
+
+    <div class="historial" id="historial"></div>
+
+    <button class="btn-secondary" onclick="cambiarTurno()">Ir a turno rival</button>
+
+    <button class="btn-danger" onclick="finalizarJuego()">Finalizar Juego</button>
+
   </div>
 
-  <!-- TURNO RIVAL -->
-  <div id="pantalla2" class="pantalla">
-
-    <div class="titulo">Turno rival</div>
-
-    <div class="numero-box">
-      <div style="font-size:14px;">Tu número</div>
-      <div class="numero-display">
-        <span id="numeroTexto2">••••</span>
-        <span class="ojo" onclick="toggleNumero()">👁️</span>
-      </div>
-    </div>
-
-    <input type="text" id="intento2" maxlength="4" inputmode="numeric">
-    <button class="btn btn-primary" onclick="guardarIntento(2)">Intentar</button>
-    <button class="btn btn-secondary" onclick="cambiarPantalla(1)">Volver a tu turno</button>
-
-    <div class="historial" id="historial2"></div>
-  </div>
-
-  <button id="btnFinalizar" class="btn btn-finalizar" style="display:none;">Finalizar Juego</button>
-
-</div>
-
-<!-- MODAL -->
-<div class="modal" id="modal">
-  <div class="modal-content">
-    <p>¿Estás seguro que deseas finalizar esta partida?</p>
-    <button onclick="cerrarModal()">No</button>
-    <button style="color:red;" onclick="finalizar()">Sí</button>
-  </div>
 </div>
 
 <script>
-let numeroSecreto="";
-let visible=false;
+
+let numeroSecreto = generarNumero();
+let visible = false;
+let historial = [];
 
 function iniciarJuego(){
-  let num=document.getElementById("numeroInput").value;
-
-  if(num.length!==4 || isNaN(num)){
-    alert("Debe ser un número de 4 cifras");
-    return;
-  }
-
-  numeroSecreto=num;
-  document.getElementById("menu").classList.remove("activa");
-  document.getElementById("pantalla1").classList.add("activa");
-  document.getElementById("btnFinalizar").style.display="block";
+  document.getElementById("menu").classList.add("hidden");
+  document.getElementById("turno").classList.remove("hidden");
 }
 
-function cambiarPantalla(n){
-  document.getElementById("pantalla1").classList.remove("activa");
-  document.getElementById("pantalla2").classList.remove("activa");
-  document.getElementById("pantalla"+n).classList.add("activa");
+function generarNumero(){
+  let numeros = "0123456789";
+  let resultado = "";
+  while(resultado.length < 4){
+    let n = numeros[Math.floor(Math.random()*10)];
+    if(!resultado.includes(n)){
+      resultado += n;
+    }
+  }
+  return resultado;
 }
 
 function toggleNumero(){
-  visible=!visible;
-  let texto=visible?numeroSecreto:"••••";
-  document.getElementById("numeroTexto").textContent=texto;
-  document.getElementById("numeroTexto2").textContent=texto;
+  visible = !visible;
+  document.getElementById("numeroSecreto").textContent =
+    visible ? numeroSecreto : "••••";
 }
 
-function guardarIntento(p){
-  let intento=document.getElementById("intento"+p).value;
-
-  if(intento.length!==4 || isNaN(intento)) return;
-
-  let fijas=0;
-  let picas=0;
-
-  for(let i=0;i<4;i++){
-    if(intento[i]===numeroSecreto[i]){
-      fijas++;
-    }else if(numeroSecreto.includes(intento[i])){
-      picas++;
-    }
-  }
-
-  if(fijas>4) fijas=4;
-  if(picas>4) picas=4;
-
-  document.getElementById("historial"+p).innerHTML +=
-    `<div>${intento} → ${fijas}F - ${picas}P</div>`;
-
-  document.getElementById("intento"+p).value="";
-}
-
-document.getElementById("btnFinalizar").addEventListener("click",()=>{
-  document.getElementById("modal").style.display="flex";
-});
-
-function cerrarModal(){
-  document.getElementById("modal").style.display="none";
-}
-
-function finalizar(){
-  cerrarModal();
-  location.reload();
-}
-
-/* Fondo */
-function crearFondo(){
-  const bg=document.getElementById("bg");
-  for(let i=0;i<15;i++){
-    let s=document.createElement("span");
-    s.innerText=Math.floor(Math.random()*10);
-    s.style.top=Math.random()*100+"%";
-    s.style.left=Math.random()*100+"%";
-    bg.appendChild(s);
+function limitarInput(input){
+  if(input.value.length > 4){
+    input.value = input.value.slice(0,4);
   }
 }
-crearFondo();
+
+function guardarIntento(){
+
+  let intento = document.getElementById("intento").value;
+  let fijas = document.getElementById("fijas").value;
+  let picas = document.getElementById("picas").value;
+
+  if(intento.length !== 4){
+    alert("El número debe tener 4 cifras.");
+    return;
+  }
+
+  let texto = intento + " → " + fijas + " Fijas - " + picas + " Picas";
+  historial.push(texto);
+
+  actualizarHistorial();
+
+  document.getElementById("intento").value = "";
+}
+
+function actualizarHistorial(){
+  let contenedor = document.getElementById("historial");
+  contenedor.innerHTML = "";
+  historial.forEach(item=>{
+    let div = document.createElement("div");
+    div.textContent = item;
+    contenedor.appendChild(div);
+  });
+}
+
+function cambiarTurno(){
+  alert("Cambio de turno (acá luego agregamos la pantalla del rival)");
+}
+
+function finalizarJuego(){
+  let confirmar = confirm("¿Estás seguro que querés finalizar el juego?");
+  if(confirmar){
+    reiniciarJuego();
+  }
+}
+
+function reiniciarJuego(){
+  numeroSecreto = generarNumero();
+  historial = [];
+  visible = false;
+  document.getElementById("numeroSecreto").textContent = "••••";
+  document.getElementById("historial").innerHTML = "";
+  document.getElementById("menu").classList.remove("hidden");
+  document.getElementById("turno").classList.add("hidden");
+}
+
 </script>
 
 </body>
