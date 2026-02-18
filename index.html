@@ -8,10 +8,10 @@
 <style>
 body{
 margin:0;
-font-family: 'Segoe UI', sans-serif;
+font-family:'Segoe UI',sans-serif;
 background: linear-gradient(135deg,#ff9a9e,#fad0c4,#a18cd1,#fbc2eb);
 background-size:400% 400%;
-animation: bg 12s ease infinite;
+animation:bg 12s ease infinite;
 overflow-x:hidden;
 }
 
@@ -37,10 +37,7 @@ box-shadow:0 8px 25px rgba(0,0,0,0.2);
 margin-top:20px;
 }
 
-h1{
-font-size:28px;
-margin-bottom:5px;
-}
+h1{font-size:28px;margin-bottom:5px;}
 
 input{
 padding:10px;
@@ -62,9 +59,7 @@ background:#ffffffcc;
 transition:0.3s;
 }
 
-button:hover{
-transform:scale(1.05);
-}
+button:hover{transform:scale(1.05);}
 
 .historial{
 margin-top:15px;
@@ -117,10 +112,7 @@ border-radius:15px;
 text-align:center;
 }
 
-.rojo{
-color:red;
-font-weight:bold;
-}
+.rojo{color:red;font-weight:bold;}
 </style>
 </head>
 
@@ -243,6 +235,13 @@ if(fijas+picas>4) return alert("Fijas + Picas no puede superar 4");
 
 intentosTu.push({intento,fijas,picas});
 renderTu();
+
+if(fijas===4){
+setTimeout(()=>{
+alert("¡Adivinaste el número de tu rival! 🎉\nPero el juego continúa hasta que presiones 'Finalizar juego'.");
+},200);
+}
+
 document.getElementById("intentoTu").value="";
 }
 
@@ -263,8 +262,7 @@ renderRival();
 
 if(fijas===4){
 setTimeout(()=>{
-alert("Lo sentimos, perdiste. Adivinaron tu número");
-finalizarJuego();
+alert("Tu rival adivinó tu número 🎯\nPero el juego continúa hasta que presiones 'Finalizar juego'.");
 },200);
 }
 
